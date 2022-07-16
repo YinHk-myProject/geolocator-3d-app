@@ -14,7 +14,7 @@ const mapStyle = createUseStyles({
        left: 0,
        right: 0
     },
-    ui: {
+    sideBar: {
        position: 'relative', 
        zIndex: '100'
     }
@@ -26,9 +26,9 @@ export default function Earth(props) {
     const [longitude, setLongitude] = useState(-70.9);
     const [latitude, setLatitude] = useState(42.35);
     const [zoom, setZoom] = useState(2.5);
-
+    //const [mapt, setMapt] = useState(`mapbox://styles/mapbox/satellite-streets-v11`);
     const earthContainer = useRef(null);
-
+    
 
     useEffect(() => {
         var map = new mapboxgl.Map({
@@ -75,8 +75,11 @@ export default function Earth(props) {
         map.addControl(geolocate, 'bottom-right');
         map.addControl(screenControl, 'bottom-right');
 
+
+        /* Event handler */
+
         //move to specific location
-        map.on('move', () => {
+        map.once('move', () => {
             const {lng, lat} = map.getCenter();
             setZoom(map.getZoom().toFixed(2));
             setLongitude(lng);
@@ -87,29 +90,41 @@ export default function Earth(props) {
             setLongitude(e.coords.longitude);
             setLatitude(e.coords.latitude);
             let position = [longitude, latitude];
-            //console.log(position);
         });
 
         //Set the default atmosphere style
         map.on('load', () => map.setFog({}) );
 
-        map.on('mousemove', (e) => { console.log(e.lngLat.wrap())});
+        //detect pointer move and corresponding position
+        //map.on('mousemove', (e) => { console.log(e.lngLat)});
+
+        map.on('contextmenu', (e) => {
+            //console.log(e.lngLat)
+            var el = document.createElement('div');
+            el.innerHTML = `<label>longitude: ${e.lngLat.lng}, latitude: ${e.lngLat.lat}</label>`
+
+            let marker = new mapboxgl.Marker({draggable: true})
+               .setLngLat([e.lngLat.lng, e.lngLat.lat])
+                .setPopup(new mapboxgl.Popup().setDOMContent(el))
+                 .addTo(map) 
+                 
+            marker.getElement('click', (e) => { marker.togglePopup(); e.stopPropagation(); }, false)
+            //marker.getElement('contextmenu', () => marker.remove());
+        });
+
 
        //Clear before unmount
-       return () => map.remove();
+       return () => {
+         map.remove();
+       } 
 
     }, []);
 
     
-    useEffect(()=> {
-        //console.log(longitude)
-    }, [longitude])
-
-
     return (
       <>
        <div className={classes.container} ref={earthContainer}></div> 
-       <div className={classes.ui}>
+       <div className={classes.sideBar}>
           <Heading 
             size='lg' 
             fontSize='25px' 
@@ -118,7 +133,7 @@ export default function Earth(props) {
             marginTop='3.5px'
           >Geolocator 3D</Heading>
        </div>
-       <div className={classes.ui}>
+       <div className={classes.sideBar}>
     
        </div>
       </>
