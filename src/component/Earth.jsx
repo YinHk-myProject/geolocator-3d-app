@@ -12,7 +12,8 @@ const mapStyle = createUseStyles({
        top: 0,
        bottom: 0,
        left: 0,
-       right: 0
+       right: 0,
+       backgroundColor: 'rgba(34, 39, 47, .7)'
     },
     sideBar: {
        position: 'relative', 
@@ -26,14 +27,13 @@ export default function Earth(props) {
     const [longitude, setLongitude] = useState(-70.9);
     const [latitude, setLatitude] = useState(42.35);
     const [zoom, setZoom] = useState(2.5);
-    //const [mapt, setMapt] = useState(`mapbox://styles/mapbox/satellite-streets-v11`);
     const earthContainer = useRef(null);
     
 
     useEffect(() => {
         var map = new mapboxgl.Map({
             container: earthContainer.current,
-            style: 'mapbox://styles/mapbox/satellite-streets-v11',
+            style: 'mapbox://styles/mapbox/streets-v11',
             zoom: zoom,
             center: [longitude, latitude],
             projection: 'globe'
@@ -93,20 +93,19 @@ export default function Earth(props) {
         });
 
         //Set the default atmosphere style
-        map.on('load', () => map.setFog({
+       /*  map.on('load', () => map.setFog({
             'range': [-1, 2],
             'horizon-blend': 0.,
             'color': '#242B4B',
             'high-color': 'rgba(0, 0, 0, .9)',
             'space-color': '#0B1026',
             'star-intensity': 1.2
-        }));
+        })); */
 
         //detect pointer move and corresponding position
         //map.on('mousemove', (e) => { console.log(e.lngLat)});
 
         map.on('contextmenu', (e) => {
-            //console.log(e.lngLat)
             var el = document.createElement('div');
             el.innerHTML = `<label>longitude: ${e.lngLat.lng}, latitude: ${e.lngLat.lat}</label>`
 
@@ -116,7 +115,6 @@ export default function Earth(props) {
                  .addTo(map) 
                  
             marker.getElement('click', (e) => { marker.togglePopup(); e.stopPropagation(); }, false)
-            //marker.getElement('contextmenu', () => marker.remove());
         });
 
 
@@ -130,8 +128,8 @@ export default function Earth(props) {
     
     return (
       <>
-       <div className={classes.container} ref={earthContainer}></div> 
-       <div className={classes.sideBar}>
+        <div className={classes.container} ref={earthContainer}></div> 
+        <div className={classes.sideBar}>
           <Heading 
             size='lg' 
             fontSize='25px' 
@@ -139,9 +137,8 @@ export default function Earth(props) {
             marginLeft='55px'
             marginTop='3.5px'
           >Geolocator 3D</Heading>
-       </div>
-       <div className={classes.sideBar}>
-    
+        </div>
+        <div className={classes.sideBar}>
        </div>
       </>
     );
