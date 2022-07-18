@@ -13,7 +13,7 @@ const mapStyle = createUseStyles({
        bottom: 0,
        left: 0,
        right: 0,
-       backgroundColor: 'rgba(34, 39, 47, .7)'
+       //backgroundColor: 'rgba(34, 39, 47, .7)'
     },
     sideBar: {
        position: 'relative', 
@@ -93,14 +93,14 @@ export default function Earth(props) {
         });
 
         //Set the default atmosphere style
-       /*  map.on('load', () => map.setFog({
+        map.on('load', () => map.setFog({
             'range': [-1, 2],
             'horizon-blend': 0.,
             'color': '#242B4B',
             'high-color': 'rgba(0, 0, 0, .9)',
             'space-color': '#0B1026',
             'star-intensity': 1.2
-        })); */
+        }));
 
         //detect pointer move and corresponding position
         //map.on('mousemove', (e) => { console.log(e.lngLat)});
@@ -133,7 +133,7 @@ export default function Earth(props) {
           <Heading 
             size='lg' 
             fontSize='25px' 
-            color="#FFFFFF"
+            color="#000000"
             marginLeft='55px'
             marginTop='3.5px'
           >Geolocator 3D</Heading>
