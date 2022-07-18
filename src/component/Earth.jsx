@@ -3,6 +3,8 @@ import { createUseStyles } from 'react-jss';
 import mapboxgl from 'mapbox-gl'; 
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import { Heading } from '@chakra-ui/react';
+// eslint-disable-next-line import/no-webpack-loader-syntax
+mapboxgl.workerClass = require('worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker').default;
 
 mapboxgl.accessToken = 'pk.eyJ1IjoieWluaGsiLCJhIjoiY2w1bjh0MGJxMTB5eTNicTkyMTV2eW9jbyJ9.LIBqr5O71-8rUSUkNRXkJQ';
 
