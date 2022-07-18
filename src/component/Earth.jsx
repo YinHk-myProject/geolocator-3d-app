@@ -15,7 +15,7 @@ const mapStyle = createUseStyles({
        bottom: 0,
        left: 0,
        right: 0,
-       //backgroundColor: 'rgba(34, 39, 47, .7)'
+       backgroundColor: 'rgba(34, 39, 47)'
     },
     sideBar: {
        position: 'relative', 
@@ -35,7 +35,7 @@ export default function Earth(props) {
     useEffect(() => {
         var map = new mapboxgl.Map({
             container: earthContainer.current,
-            style: 'mapbox://styles/mapbox/streets-v11',
+            style: 'mapbox://styles/mapbox/satellite-streets-v11',
             zoom: zoom,
             center: [longitude, latitude],
             projection: 'globe'
@@ -135,7 +135,7 @@ export default function Earth(props) {
           <Heading 
             size='lg' 
             fontSize='25px' 
-            color="#000000"
+            color="#FFFFFF"
             marginLeft='55px'
             marginTop='3.5px'
           >Geolocator 3D</Heading>
